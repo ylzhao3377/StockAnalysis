@@ -2,6 +2,7 @@ import re
 import quandl
 import tweepy
 
+
 class API:
 
     def __init__(self):
@@ -17,7 +18,7 @@ class API:
         return quandl.get('NS1/' + symbol + '_US', authtoken='YdMDrWCtysnDHxyUUyXa')
 
     @staticmethod
-    def tweet_api(topic, start, until):
+    def tweet_api(topic):
         consumer_key = 'wY2hSQ1eB4MGPcqryo1gtdHOj'
         consumer_secret = 'POMGrCy9Yi8ku9SxzkP712X04JrFuHWl8KSfaTRZKZ8Wnuwali'
         access_token = '2738088724-KDez4xiSfZ6syHvbv85AxpG5U3SQJucV00vWaws'
@@ -25,9 +26,8 @@ class API:
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_token, access_token_secret)
         api = tweepy.API(auth)
-        #fetched_tweets = api.search(q=topic, rpp=100, lang="en")
         fetched_tweets = tweepy.Cursor(api.search, q=topic, rpp=100, result_type="recent",
-                                       include_entities=True, lang="en", since=start, until=until).pages()
+                                       include_entities=True, lang="en").pages(180)
         return fetched_tweets
 
     @staticmethod
